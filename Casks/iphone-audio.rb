@@ -1,6 +1,6 @@
 cask "iphone-audio" do
-  version "0.1.1"
-  sha256 "879bdf2f9c6580af402be5f62f0a9b94f1d70e952972ca48a6580fbfd76d87fa"
+  version "0.1.2"
+  sha256 "0a15d9e8175ca329a5513110091bf94179a5a8295cc15ae60e5641eb67dd4423"
 
   url "https://github.com/JakkrapartXD/homebrew-iphone-audio/releases/download/v#{version}/iPhone-Audio-#{version}-arm64.zip"
   name "iPhone Audio"
