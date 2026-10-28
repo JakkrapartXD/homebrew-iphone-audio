@@ -271,13 +271,32 @@ struct iPhoneAudioApp: App {
         WindowGroup("iPhone Audio") { ContentView(model: model) }
             .windowResizability(.contentSize)
         MenuBarExtra("iPhone Audio", systemImage: "iphone.radiowaves.left.and.right") {
-            Text(model.status)
-            Button(model.running ? "หยุดฟัง" : "เชื่อมต่อและเริ่มฟัง") {
-                if model.running { model.stop() } else { model.connect() }
-            }.disabled(model.busy)
-            Toggle("ปิดเสียง", isOn: $model.muted)
-            Divider()
-            Button("ออกจากแอป") { model.stop(); NSApplication.shared.terminate(nil) }
-        }
+            VStack(alignment: .leading, spacing: 14) {
+                HStack {
+                    Text("เสียง iPhone").font(.headline)
+                    Spacer()
+                    Text(model.muted ? "ปิดเสียง" : "\(Int(model.volume * 100))%")
+                        .font(.caption).foregroundStyle(.secondary).monospacedDigit()
+                }
+                HStack(spacing: 12) {
+                    Button { model.muted.toggle() } label: {
+                        Image(systemName: model.muted ? "speaker.slash.fill" : "speaker.wave.2.fill")
+                            .frame(width: 20)
+                    }.buttonStyle(.plain).accessibilityLabel(model.muted ? "เปิดเสียง iPhone" : "ปิดเสียง iPhone")
+                    Slider(value: $model.volume, in: 0...1)
+                        .accessibilityLabel("ระดับเสียง iPhone")
+                }
+                Text(model.status).font(.caption).foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+                Divider()
+                HStack {
+                    Button(model.running ? "หยุดฟัง" : "เชื่อมต่อและเริ่มฟัง") {
+                        if model.running { model.stop() } else { model.connect() }
+                    }.disabled(model.busy)
+                    Spacer()
+                    Button("ออกจากแอป") { model.stop(); NSApplication.shared.terminate(nil) }
+                }
+            }.padding(16).frame(width: 320)
+        }.menuBarExtraStyle(.window)
     }
 }
