@@ -215,7 +215,7 @@ struct ContentView: View {
                 Image(systemName: "iphone.and.arrow.forward").font(.system(size: 38)).foregroundStyle(.blue)
                 VStack(alignment: .leading, spacing: 3) {
                     Text("iPhone Audio").font(.largeTitle.bold())
-                    Text("ต้นแบบทดสอบ • USB → Mac").foregroundStyle(.secondary)
+                    Text("เสียงจาก iPhone • USB → Mac").foregroundStyle(.secondary)
                 }
                 Spacer()
             }
@@ -251,7 +251,7 @@ struct ContentView: View {
                     Button("เปิด Audio MIDI Setup") { model.openSetup() }
                 }
             }
-            Text("ปิดหน้าต่างรับเสียงของ QuickTime ก่อนทดสอบ เพื่อไม่ให้เสียงเล่นซ้อนกัน ต้นแบบนี้ยังต้องกดเชื่อมต่ออีกครั้งเมื่อเสียบสายใหม่")
+            Text("ปิดหน้าต่างรับเสียงของ QuickTime เพื่อไม่ให้เสียงเล่นซ้อนกัน เมื่อเสียบสายใหม่ให้กดเชื่อมต่ออีกครั้ง")
                 .font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
         }.padding(26).frame(width: 500)
     }
@@ -261,7 +261,7 @@ struct ContentView: View {
 struct iPhoneAudioApp: App {
     @StateObject private var model = Model()
     var body: some Scene {
-        WindowGroup("iPhone Audio — Prototype") { ContentView(model: model) }
+        WindowGroup("iPhone Audio") { ContentView(model: model) }
             .windowResizability(.contentSize)
         MenuBarExtra("iPhone Audio", systemImage: "iphone.radiowaves.left.and.right") {
             Text(model.status)
