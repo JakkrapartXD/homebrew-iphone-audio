@@ -8,7 +8,7 @@ cask "iphone-audio" do
   homepage "https://github.com/JakkrapartXD/homebrew-iphone-audio"
 
   depends_on arch: :arm64
-  depends_on macos: ">= :sonoma"
+  depends_on macos: :sonoma
 
   app "iPhone Audio.app"
 
