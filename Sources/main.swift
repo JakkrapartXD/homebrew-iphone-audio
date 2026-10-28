@@ -194,6 +194,13 @@ final class Model: ObservableObject {
                 guard let self, attempt == self.generation else { return }
                 self.running = error == nil
                 self.status = error ?? "กำลังเปิดฟัง iPhone • เสียงออกตามอุปกรณ์ที่ Mac เลือกอยู่"
+                if error == nil {
+                    // IDAM remains enabled after Audio MIDI Setup quits.
+                    // Leave setup open on failure so the user can troubleshoot.
+                    for setup in NSRunningApplication.runningApplications(withBundleIdentifier: IDAMActivator.bundleID) {
+                        _ = setup.terminate()
+                    }
+                }
             }
         }
     }
