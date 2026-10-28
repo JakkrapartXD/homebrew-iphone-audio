@@ -11,7 +11,7 @@ Listen to iPhone USB audio through your Mac while keeping Mac audio playing. Thi
 
 ## Install
 
-After the GitHub release and tap are published:
+Install the published prototype from this repository's Homebrew tap:
 
 ```sh
 brew tap JakkrapartXD/iphone-audio
