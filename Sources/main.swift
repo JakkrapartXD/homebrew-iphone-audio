@@ -84,7 +84,7 @@ enum IDAMActivator {
             walk($0).contains { text($0, kAXDescriptionAttribute) == "iOS Device" }
         }
         guard rows.count == 1, let row = rows.first else {
-            throw NSError(domain: "IDAM", code: 2, userInfo: [NSLocalizedDescriptionKey:
+            throw NSError(domain: "IDAM", code: rows.isEmpty ? 2 : 4, userInfo: [NSLocalizedDescriptionKey:
                 rows.isEmpty ? "ยังไม่พบแถว iPhone ใน Audio MIDI Setup กรุณาเปิดหน้าต่าง Audio Devices และปลดล็อก iPhone" : "พบ iOS หลายเครื่อง กรุณาเปิด Enable ของเครื่องที่ต้องการด้วยตนเอง"])
         }
         _ = AXUIElementSetAttributeValue(row, kAXSelectedAttribute as CFString, kCFBooleanTrue)
@@ -173,9 +173,18 @@ final class Model: ObservableObject {
                 }
                 do {
                     let app = try await IDAMActivator.openSetup()
-                    try await Task.sleep(for: .milliseconds(700))
-                    guard attempt == generation else { return }
-                    status = try IDAMActivator.pressEnable(in: app)
+                    status = "กำลังรอ Audio MIDI Setup และ iPhone พร้อม…"
+                    for retry in 0..<30 {
+                        try await Task.sleep(for: .milliseconds(300))
+                        guard attempt == generation else { return }
+                        do {
+                            status = try IDAMActivator.pressEnable(in: app)
+                            break
+                        } catch {
+                            let failure = error as NSError
+                            guard failure.domain == "IDAM", failure.code == 2, retry < 29 else { throw error }
+                        }
+                    }
                     for _ in 0..<20 {
                         try await Task.sleep(for: .milliseconds(300))
                         guard attempt == generation else { return }

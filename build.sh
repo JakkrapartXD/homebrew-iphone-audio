@@ -1,7 +1,7 @@
 #!/bin/zsh
 set -euo pipefail
 cd "${0:A:h}"
-app="$PWD/build/iPhone Audio.app"
+app="${1:-$PWD/build/iPhone Audio.app}"
 mkdir -p "$app/Contents/MacOS" "$PWD/build/module-cache"
 mkdir -p "$app/Contents/Resources" "$PWD/build/AppIcon.iconset"
 for size in 16 32 128 256 512; do
